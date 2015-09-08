@@ -17,7 +17,7 @@ type alias Model = {
 
 type Action
   = FetchPosts
-  | PostsFechSuccess (Result Http.Error String)
+  | PostsFechSuccess (Result Http.Error (List String))
 
 model: Model
 model =
@@ -48,14 +48,14 @@ view address model =
 
 fetchPosts: Effects Action
 fetchPosts =
-  Http.getString (Http.url postsUrl [])
+  Http.get parsePosts (Http.url postsUrl [])
     |> Task.toResult
     |> Task.map PostsFechSuccess
     |> Effects.task
 
---decodeUrl : Json.Decode.Decoder String
---decodeUrl =
---  Json.Decode.at ["title"] Json.Decode.string
+parsePosts : Json.Decode.Decoder (List String)
+parsePosts =
+  Json.Decode.list
 
 postsUrl: String
 postsUrl =
