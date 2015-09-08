@@ -12,7 +12,7 @@ import Json.Decode
 
 type alias Model = {
   fetches: Int,
-  result: Result Http.Error String
+  result: Result Http.Error (List String)
 }
 
 type Action
@@ -21,7 +21,7 @@ type Action
 
 model: Model
 model =
-  Model 0 (Ok "")
+  Model 0 (Ok [""])
 
 init: (Model, Effects Action)
 init =
@@ -48,15 +48,16 @@ view address model =
 
 fetchPosts: Effects Action
 fetchPosts =
-  Http.get parsePosts (Http.url postsUrl [])
+  Http.get (Json.Decode.list parsePost) (Http.url postsUrl [])
     |> Task.toResult
     |> Task.map PostsFechSuccess
     |> Effects.task
 
-parsePosts : Json.Decode.Decoder (List String)
-parsePosts =
-  Json.Decode.list
+parsePost: Json.Decode.Decoder String
+parsePost =
+  Json.Decode.string
 
 postsUrl: String
 postsUrl =
   "http://jsonplaceholder.typicode.com/posts/"
+
