@@ -21,5 +21,9 @@ type Action
 
 savePost: Model -> Effects Action
 savePost model =
-  --Http.request "PATCH" 
   Effects.none
+  --Http.Request "PATCH" (savePostUrl model) ""
+
+savePostUrl: Model -> String
+savePostUrl model =
+  "http://localhost:3000/posts/" ++ (toString model.id)
