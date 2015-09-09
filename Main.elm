@@ -1,5 +1,5 @@
 import Posts.ListLoader as PostsListLoader
-import Posts.Post
+import Posts.Post as Post
 
 import Html
 import StartApp
@@ -9,7 +9,7 @@ import Debug
 
 -- Main application model
 type alias AppModel = {
-  posts: PostsListLoader.Model
+  posts: Post.PostList
 }
 
 -- Initial model
@@ -35,15 +35,17 @@ app =
     inputs = []
   }
 
-    --init = PostsListLoader.init,
-    --update = PostsListLoader.update,
-    --view = PostsListLoader.view,
-
 main: Signal Html.Html
 main =
   app.html
 
--- update
+{- 
+update
+
+update has to flow down the component tree
+We receive an action and pass it down the tree, then update
+our application state and return the effects as well
+-}
 update: Action -> AppModel -> (AppModel, Effects Action)
 update action appModel =
   case action of

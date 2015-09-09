@@ -10,20 +10,15 @@ import Debug
 import Task
 import Json.Decode exposing ((:=))
 
-type alias Model = {
-  fetches: Int,
-  result: Result Http.Error (List Post.Model)
-}
-
 type Action
   = FetchPosts
   | PostsFechSuccess (Result Http.Error (List Post.Model))
 
-model: Model
+model: Post.PostList
 model =
-  Model 0 (Ok [])
+  Post.PostList 0 (Ok [])
 
-update: Action -> Model -> (Model, Effects Action)
+update: Action -> Post.PostList -> (Post.PostList, Effects Action)
 update action model =
   case action of
     FetchPosts ->
@@ -31,11 +26,11 @@ update action model =
       ({model | fetches <- model.fetches + 1}, fetchPosts)
     PostsFechSuccess result ->
       (
-        Model model.fetches result,
+        Post.PostList model.fetches result,
         Effects.none
       )
 
-view: Signal.Address Action -> Model -> Html.Html
+view: Signal.Address Action -> Post.PostList -> Html.Html
 view address model =
   Html.div [] [
     Html.button [ Html.Events.onClick address FetchPosts ] [ Html.text "Fetch Post" ],
