@@ -1,4 +1,5 @@
 import Posts.ListLoader as PostsListLoader
+import Posts.AnotherList
 import Posts.Post as Post
 
 import Html
@@ -62,7 +63,12 @@ update action appModel =
 view: Signal.Address Action -> AppModel -> Html.Html
 view address appModel =
   Html.div [] [
-    PostsListLoader.view (Signal.forwardTo address PostsUpdate) appModel.posts
+    Html.div [] [
+      PostsListLoader.view (Signal.forwardTo address PostsUpdate) appModel.posts
+    ],
+    Html.div [] [
+      Posts.AnotherList.view appModel.posts.result
+    ]
   ]
 
 -- this is the important bit

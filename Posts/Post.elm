@@ -7,7 +7,9 @@ type alias Model = {
   title: String
 }
 
+type alias PostResults = Result Http.Error (List Model)
+
 type alias PostList = {
   fetches: Int,
-  result: Result Http.Error (List Model)
+  result: PostResults
 }

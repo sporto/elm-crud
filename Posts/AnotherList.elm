@@ -1,6 +1,7 @@
-module Posts.List where
+module Posts.AnotherList where
 
 import Html
+import Http
 import Posts.Post as Post
 
 view: Post.PostResults -> Html.Html
@@ -20,9 +21,5 @@ rows posts =
 rowView: Post.Model -> Html.Html
 rowView post =
   Html.tr [] [
-    Html.td [] [ Html.text (toString post.id) ],
-    Html.td [] [ Html.text post.title ],
-    Html.td [] [
-      Html.button [  ] [ Html.text "Reverse" ]
-    ]
+    Html.td [] [ Html.text (toString post.id) ]
   ]
