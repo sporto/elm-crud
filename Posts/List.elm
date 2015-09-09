@@ -2,10 +2,35 @@ module Posts.List where
 
 import Html
 import Html.Events
+import Debug
+import String
 import Posts.Post as Post
+import Effects exposing (Effects, Never)
+
+{-
+This component receives a list of results
+  -}
 
 type Action
-  = Reverse
+  = Reverse Int
+
+update: Action -> Post.PostResults -> (Post.PostResults, Effects Action)
+update action model =
+  case action of
+    Reverse id ->
+      case model of
+        Ok posts ->
+          let
+            updateItem item =
+              if item.id == id then
+                { item | title <- (String.reverse item.title) }
+              else
+                item
+            updatedItems =
+              posts
+                |> List.map updateItem
+          in
+            ((Ok updatedItems), Effects.none)
 
 view: Signal.Address Action -> Post.PostResults -> Html.Html
 view address result =
@@ -27,6 +52,6 @@ rowView address post =
     Html.td [] [ Html.text (toString post.id) ],
     Html.td [] [ Html.text post.title ],
     Html.td [] [
-      Html.button [ ] [ Html.text "Reverse" ]
+      Html.button [ Html.Events.onClick address (Reverse post.id) ] [ Html.text "Reverse" ]
     ]
   ]

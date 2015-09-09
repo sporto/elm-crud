@@ -30,6 +30,14 @@ update action model =
         Post.PostList model.fetches result,
         Effects.none
       )
+    PostChange listAction ->
+      let
+        (updatedResult, fx) = List.update listAction model.result
+      in
+        (
+          { model | result <- updatedResult },
+          Effects.map PostChange fx
+        )
 
 view: Signal.Address Action -> Post.PostList -> Html.Html
 view address model =
