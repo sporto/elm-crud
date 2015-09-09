@@ -6,31 +6,28 @@ import Html
 import Html.Events
 import Http
 import Effects exposing (Effects, Never)
---import Debug
+import Debug
 import Task
 import Json.Decode exposing ((:=))
 
 type alias Model = {
   fetches: Int,
-  result: Result Http.Error (List Post.Post)
+  result: Result Http.Error (List Post.Model)
 }
 
 type Action
   = FetchPosts
-  | PostsFechSuccess (Result Http.Error (List Post.Post))
+  | PostsFechSuccess (Result Http.Error (List Post.Model))
 
 model: Model
 model =
   Model 0 (Ok [])
 
-init: (Model, Effects Action)
-init =
-  (model, Effects.none)
-
 update: Action -> Model -> (Model, Effects Action)
 update action model =
   case action of
     FetchPosts ->
+      Debug.log "FetchPosts"
       ({model | fetches <- model.fetches + 1}, fetchPosts)
     PostsFechSuccess result ->
       (
@@ -55,9 +52,9 @@ fetchPosts =
 
 --(:=) = Json.Decode.(:=)
 
-postDecoder: Json.Decode.Decoder Post.Post
+postDecoder: Json.Decode.Decoder Post.Model
 postDecoder =
-  Json.Decode.object2 Post.Post
+  Json.Decode.object2 Post.Model
     ("id" := Json.Decode.int)
     ("title" := Json.Decode.string)
 

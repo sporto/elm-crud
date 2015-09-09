@@ -4,7 +4,7 @@ import Html
 import Http
 import Posts.Post as Post
 
-view: Result Http.Error (List Post.Post) -> Html.Html
+view: Result Http.Error (List Post.Model) -> Html.Html
 view result =
   case result of
     Err error ->
@@ -14,11 +14,11 @@ view result =
         Html.tbody [] (rows posts)
       ]
 
-rows: (List Post.Post) -> (List Html.Html)
+rows: (List Post.Model) -> (List Html.Html)
 rows posts =
   List.map rowView posts
 
-rowView: Post.Post -> Html.Html
+rowView: Post.Model -> Html.Html
 rowView post =
   Html.tr [] [
     Html.td [] [ Html.text (toString post.id) ],

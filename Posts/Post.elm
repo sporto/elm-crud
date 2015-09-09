@@ -1,6 +1,6 @@
 module Posts.Post where
 
-type alias Post = {
+type alias Model = {
   id: Int,
   title: String
 }
