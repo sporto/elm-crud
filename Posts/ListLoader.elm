@@ -13,7 +13,7 @@ import Json.Decode exposing ((:=))
 type Action
   = FetchPosts
   | PostsFechSuccess (Result Http.Error (List Post.Model))
-  | PostChange List.Action
+  | PostChange Post.Action
 
 model: Post.PostList
 model =

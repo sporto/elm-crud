@@ -1,6 +1,7 @@
 module Posts.Post where
 
 import Http
+import Effects exposing (Effects, Never)
 
 type alias Model = {
   id: Int,
@@ -13,3 +14,11 @@ type alias PostList = {
   fetches: Int,
   result: PostResults
 }
+
+-- Individual actions for a post
+type Action
+  = Reverse Int
+
+savePost: Model -> Effects Action
+savePost model =
+  Effects.none
