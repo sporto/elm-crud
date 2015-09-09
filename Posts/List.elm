@@ -8,7 +8,7 @@ import Posts.Post as Post
 import Effects exposing (Effects, Never)
 
 {-
-This component receives a list of results
+This component receives a list of Post.PostResults
   -}
 
 type Action
@@ -23,14 +23,18 @@ update action model =
           let
             updateItem item =
               if item.id == id then
-                { item | title <- (String.reverse item.title) }
+                (
+                  { item | title <- (String.reverse item.title) },
+                  Effects.none
+                )
               else
-                item
-            updatedItems =
+                (item, Effects.none)
+            (updatedItems, fxList) =
               posts
                 |> List.map updateItem
+                |> List.unzip
           in
-            ((Ok updatedItems), Effects.none)
+            ((Ok updatedItems), Effects.batch fxList)
 
 view: Signal.Address Action -> Post.PostResults -> Html.Html
 view address result =
