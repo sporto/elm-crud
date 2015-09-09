@@ -62,7 +62,8 @@ postDecoder =
     ("id" := Json.Decode.int)
     ("title" := Json.Decode.string)
 
+-- http://jsonplaceholder.typicode.com/
 postsUrl: String
 postsUrl =
-  "http://jsonplaceholder.typicode.com/posts/"
+  "http://localhost:3000/posts"
 

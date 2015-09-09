@@ -7,3 +7,11 @@ To do:
 - Add button to update post (reverse) ✔
 - Update post (With side effects)
 - Update views
+
+## API
+
+```
+npm start
+```
+
+curl http://localhost:3000/posts
