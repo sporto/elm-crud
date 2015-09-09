@@ -2,26 +2,27 @@ module Posts.List where
 
 import Html
 import Http
+import Posts.Post as Post
 
-view: Result Http.Error (List String) -> Html.Html
+view: Result Http.Error (List Post.Post) -> Html.Html
 view result =
   case result of
     Err error ->
       Html.text (toString result)
-    Ok items ->
+    Ok posts ->
       Html.table [] [
-        Html.tbody [] (rows items)
+        Html.tbody [] (rows posts)
       ]
 
-rows: (List String) -> (List Html.Html)
-rows items =
-  List.map rowView items
+rows: (List Post.Post) -> (List Html.Html)
+rows posts =
+  List.map rowView posts
 
-rowView: String -> Html.Html
-rowView item =
+rowView: Post.Post -> Html.Html
+rowView post =
   Html.tr [] [
-    Html.td [] [ Html.text item ],
+    Html.td [] [ Html.text (toString post.id) ],
     Html.td [] [
-      Html.button [  ] [ Html.text item ]
+      Html.button [  ] [ Html.text post.title ]
     ]
   ]
