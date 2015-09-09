@@ -13,6 +13,7 @@ import Json.Decode exposing ((:=))
 type Action
   = FetchPosts
   | PostsFechSuccess (Result Http.Error (List Post.Model))
+  | PostChange List.Action
 
 model: Post.PostList
 model =
@@ -35,7 +36,7 @@ view address model =
   Html.div [] [
     Html.button [ Html.Events.onClick address FetchPosts ] [ Html.text "Fetch Post" ],
     Html.text (toString model.fetches),
-    List.view model.result
+    List.view (Signal.forwardTo address PostChange) model.result
   ]
 
 fetchPosts: Effects Action

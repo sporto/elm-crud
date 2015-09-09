@@ -64,9 +64,11 @@ view: Signal.Address Action -> AppModel -> Html.Html
 view address appModel =
   Html.div [] [
     Html.div [] [
+      Html.h1 [] [ Html.text "List 1" ],
       PostsListLoader.view (Signal.forwardTo address PostsUpdate) appModel.posts
     ],
     Html.div [] [
+      Html.h1 [] [ Html.text "List 2" ],
       Posts.AnotherList.view appModel.posts.result
     ]
   ]
