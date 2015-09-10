@@ -56,6 +56,7 @@ fetchPosts =
 
 --(:=) = Json.Decode.(:=)
 
+-- This is duplicated in Post.elm
 postDecoder: Json.Decode.Decoder Post.Model
 postDecoder =
   Json.Decode.object2 Post.Model
