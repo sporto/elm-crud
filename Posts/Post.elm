@@ -2,6 +2,7 @@ module Posts.Post where
 
 import Effects exposing (Effects, Never)
 import Json.Decode exposing ((:=))
+import Json.Encode
 import Http
 import Task
 
@@ -43,9 +44,21 @@ savePostRequest model =
       verb = "PATCH",
       headers = [],
       url = savePostUrl model,
-      body = Http.empty
+      body = Http.string (encodePostAsJson model)
     }
 
 savePostUrl: Model -> String
 savePostUrl model =
   "http://localhost:3000/posts/" ++ (toString model.id)
+
+encodePostAsJson: Model -> String
+encodePostAsJson model =
+  Json.Encode.encode 0 (encodePost model)
+
+encodePost: Model -> Json.Encode.Value
+encodePost model =
+  Json.Encode.object
+    [
+      ("id", Json.Encode.int model.id),
+      ("title", Json.Encode.string model.title)
+    ]

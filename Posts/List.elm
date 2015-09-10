@@ -19,19 +19,23 @@ update action model =
         Ok posts ->
           let
             updateItem item =
+              { item | title <- (String.reverse item.title) }
+            itemMapper item =
               if item.id == id then
                 (
-                  { item | title <- (String.reverse item.title) },
-                  Post.savePost item
+                  (updateItem item),
+                  Post.savePost (updateItem item)
                 )
               else
                 (item, Effects.none)
             (updatedItems, fxList) =
               posts
-                |> List.map updateItem
+                |> List.map itemMapper
                 |> List.unzip
           in
             ((Ok updatedItems), Effects.batch fxList)
+    Post.UpdateSuccess result ->
+      (model, Effects.none)
 
 view: Signal.Address Post.Action -> Post.PostResults -> Html.Html
 view address result =
